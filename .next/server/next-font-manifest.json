@@ -1,0 +1,71 @@
+{
+  "app": {
+    "[project]/src/app/app/academy/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ],
+    "[project]/src/app/app/associados/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ],
+    "[project]/src/app/app/cartao/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ],
+    "[project]/src/app/app/comunicados/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ],
+    "[project]/src/app/app/eventos/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ],
+    "[project]/src/app/app/financas/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ],
+    "[project]/src/app/app/governance/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ],
+    "[project]/src/app/app/organigrama/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ],
+    "[project]/src/app/app/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ],
+    "[project]/src/app/app/perfil/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ],
+    "[project]/src/app/app/protect/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ],
+    "[project]/src/app/app/quotas/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ],
+    "[project]/src/app/app/votacoes/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ],
+    "[project]/src/app/entrar/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ],
+    "[project]/src/app/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ],
+    "[project]/src/app/verificar/[id]/page": [
+      "static/media/c41ca59f1c34ba31-s.p.e20f337c.woff2",
+      "static/media/0c795a286deabae8-s.p.b6c48e4e.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

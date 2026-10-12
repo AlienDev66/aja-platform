@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/whatsapp/layout,_N_T_/admin/whatsapp/page,_N_T_/admin/whatsapp"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/184f0c357f94f2379a3105cf1da0f65d069f183359f155df358f60fab97892d7/$/admin/whatsapp",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/admin/whatsapp/page"
+    },
+    "isFallback": false
+  }
+}

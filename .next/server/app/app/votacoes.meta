@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/app/layout,_N_T_/app/votacoes/layout,_N_T_/app/votacoes/page,_N_T_/app/votacoes"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/c8ee3d9e2704073df8a4a14c28ee949889e87b94356d3d9d9222556d7c3df0e8/$/app/votacoes",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/app/votacoes/page"
+    },
+    "isFallback": false
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/acessos/layout,_N_T_/admin/acessos/page,_N_T_/admin/acessos"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/a39ad6fd5b47d80988879a3baa9bf4dd10b2b862828926be3ec3547b3f206189/$/admin/acessos",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/admin/acessos/page"
+    },
+    "isFallback": false
+  }
+}

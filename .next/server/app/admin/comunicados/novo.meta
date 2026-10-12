@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/comunicados/layout,_N_T_/admin/comunicados/novo/layout,_N_T_/admin/comunicados/novo/page,_N_T_/admin/comunicados/novo"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/b054463fe39122daa79566c2208934b6b883c75bf45dd871809aeafcdd5c602a/$/admin/comunicados/novo",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/admin/comunicados/novo/page"
+    },
+    "isFallback": false
+  }
+}

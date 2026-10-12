@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/app/layout,_N_T_/app/financas/layout,_N_T_/app/financas/page,_N_T_/app/financas"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/088cf4d137faf0e311c8211de96a55085286f2b2075f23f0d45c0e1588a205bc/$/app/financas",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/app/financas/page"
+    },
+    "isFallback": false
+  }
+}

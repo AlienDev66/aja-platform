@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/app/layout,_N_T_/app/cartao/layout,_N_T_/app/cartao/page,_N_T_/app/cartao"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/741dcd22ba2240ae210a5f63d9f409f95fcf080605d690f4b01e36f64450fa54/$/app/cartao",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/app/cartao/page"
+    },
+    "isFallback": false
+  }
+}

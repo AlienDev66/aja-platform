@@ -1,0 +1,18 @@
+{
+  "/app/academy/page": "app/app/academy/page.js",
+  "/app/associados/page": "app/app/associados/page.js",
+  "/app/cartao/page": "app/app/cartao/page.js",
+  "/app/comunicados/page": "app/app/comunicados/page.js",
+  "/app/eventos/page": "app/app/eventos/page.js",
+  "/app/financas/page": "app/app/financas/page.js",
+  "/app/governance/page": "app/app/governance/page.js",
+  "/app/organigrama/page": "app/app/organigrama/page.js",
+  "/app/page": "app/app/page.js",
+  "/app/perfil/page": "app/app/perfil/page.js",
+  "/app/protect/page": "app/app/protect/page.js",
+  "/app/quotas/page": "app/app/quotas/page.js",
+  "/app/votacoes/page": "app/app/votacoes/page.js",
+  "/entrar/page": "app/entrar/page.js",
+  "/page": "app/page.js",
+  "/verificar/[id]/page": "app/verificar/[id]/page.js"
+}

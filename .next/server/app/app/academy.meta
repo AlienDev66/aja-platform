@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/app/layout,_N_T_/app/academy/layout,_N_T_/app/academy/page,_N_T_/app/academy"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/35cb13188c0aaba039450d0baba1e9417fdec4b646d0073dee37e4da18b4c4d9/$/app/academy",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/app/academy/page"
+    },
+    "isFallback": false
+  }
+}

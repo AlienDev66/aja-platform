@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/app/layout,_N_T_/app/associados/layout,_N_T_/app/associados/page,_N_T_/app/associados"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/dd5e59831eaeb0ab43cddc961cf0a9ceef67de9c68ad875529f663603b6d8d73/$/app/associados",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/app/associados/page"
+    },
+    "isFallback": false
+  }
+}

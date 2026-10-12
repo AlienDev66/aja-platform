@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/app/layout,_N_T_/app/notificacoes/layout,_N_T_/app/notificacoes/page,_N_T_/app/notificacoes"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/8c1b79a8f386314e6c4602df5420820d21a96fa02d7d7fe95b73ba61047501ec/$/app/notificacoes",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/app/notificacoes/page"
+    },
+    "isFallback": false
+  }
+}

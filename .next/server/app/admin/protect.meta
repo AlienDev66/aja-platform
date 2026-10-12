@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/protect/layout,_N_T_/admin/protect/page,_N_T_/admin/protect"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/4ab708e0e15e5a6a1d4b7b16aa0984617e0c8e8e1ba1d8ae0699a196b8fb1551/$/admin/protect",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/admin/protect/page"
+    },
+    "isFallback": false
+  }
+}

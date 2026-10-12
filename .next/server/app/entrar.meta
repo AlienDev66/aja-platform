@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/entrar/layout,_N_T_/entrar/page,_N_T_/entrar"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/83782a1218d7022bde168588f3309e91a8d0359e1bfd841af1bf76c2f85f1e77/$/entrar",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/entrar/page"
+    },
+    "isFallback": false
+  }
+}

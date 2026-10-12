@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/app/layout,_N_T_/app/comunicados/layout,_N_T_/app/comunicados/page,_N_T_/app/comunicados"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/bf921d3fbdcd50b0ac4f895dbfd5d69bba0eea9373ef2b6e5cd213dd288eced0/$/app/comunicados",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/app/comunicados/page"
+    },
+    "isFallback": false
+  }
+}

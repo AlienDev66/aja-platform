@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AJA Digital — Proposta à Direcção</title>
+  <meta name="description" content="Modernização institucional da Associação dos Juízes de Angola." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #0c1a2e;
+      --panel-2: #12253f;
+      --line: rgba(184, 161, 120, 0.22);
+      --text: #f4f1ea;
+      --muted: rgba(244, 241, 234, 0.58);
+      --accent: #b8a178;
+      --accent-bright: #d4c19a;
+      --accent-ink: #0a1524;
+      --cyan: #5ec8d8;
+      --ok: #3dd68c;
+      --danger: #ff6b7a;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; height: 100%;
+      background: var(--bg); color: var(--text);
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .deck { height: 100%; overflow: hidden; position: relative; }
+    .rail {
+      position: fixed; left: 0; right: 0; top: 0; height: 2px; z-index: 40;
+      background: rgba(255,255,255,0.05);
+    }
+    .rail__fill {
+      height: 100%; width: 0%;
+      background: var(--accent);
+      transition: width 360ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .slide {
+      display: none; height: 100%;
+      padding: clamp(1.5rem, 4vw, 3.25rem);
+      padding-top: clamp(4.25rem, 7vw, 5rem);
+      padding-bottom: 5rem;
+      overflow: auto; position: relative;
+    }
+    .slide.is-on { display: flex; align-items: center; animation: in 380ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .slide.is-on .slide__inner { width: 100%; }
+    @keyframes in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: none; }
+    }
+    .slide.is-on .slide__inner > * {
+      animation: rise 480ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .slide.is-on .slide__inner > *:nth-child(1) { animation-delay: 30ms; }
+    .slide.is-on .slide__inner > *:nth-child(2) { animation-delay: 70ms; }
+    .slide.is-on .slide__inner > *:nth-child(3) { animation-delay: 110ms; }
+    .slide.is-on .slide__inner > *:nth-child(4) { animation-delay: 150ms; }
+    .slide.is-on .slide__inner > *:nth-child(5) { animation-delay: 190ms; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: none; }
+    }
+    .slide__bg {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 50% 45% at 88% 12%, rgba(94,200,216,0.08), transparent 55%),
+        radial-gradient(ellipse 40% 35% at 8% 85%, rgba(184,161,120,0.07), transparent 50%),
+        var(--bg);
+    }
+    .slide__inner { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; }
+
+    .deck-logo {
+      position: fixed; top: 1.05rem; left: 1.15rem; z-index: 30;
+      height: 38px; width: auto; opacity: 0.9; pointer-events: none;
+    }
+    body.is-present .deck-logo { height: 32px; opacity: 0.7; }
+
+    .nav-toggle {
+      position: fixed; top: 0.95rem; right: 1rem; z-index: 30;
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      appearance: none; border: 1px solid var(--line);
+      background: rgba(12,26,46,0.9); color: var(--text);
+      border-radius: 999px; padding: 0.48rem 0.85rem;
+      font: inherit; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+      backdrop-filter: blur(10px);
+    }
+    .nav-toggle:hover { border-color: var(--accent); color: var(--accent-bright); }
+    .nav-toggle__icon { width: 1rem; height: 0.75rem; display: grid; gap: 0.16rem; align-content: center; }
+    .nav-toggle__icon i { display: block; height: 1.5px; background: currentColor; border-radius: 2px; }
+    .nav-toggle__icon i:nth-child(2) { width: 70%; }
+    .nav-backdrop {
+      position: fixed; inset: 0; z-index: 20; background: rgba(0,0,0,0.5);
+      opacity: 0; pointer-events: none; transition: opacity 220ms ease;
+    }
+    body.nav-open .nav-backdrop { opacity: 1; pointer-events: auto; }
+    .nav-drawer {
+      position: fixed; top: 0; right: 0; z-index: 25;
+      width: min(20rem, 86vw); height: 100%;
+      background: var(--panel); border-left: 1px solid var(--line);
+      padding: 4.25rem 0.9rem 1.25rem; overflow: auto;
+      transform: translateX(104%);
+      transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body.nav-open .nav-drawer { transform: translateX(0); }
+    .nav-drawer__label {
+      margin: 0 0.5rem 0.65rem; font-size: 0.65rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--muted); font-weight: 600;
+    }
+    .nav-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.2rem; }
+    .nav-list button {
+      width: 100%; appearance: none; border: 1px solid transparent; background: transparent;
+      color: var(--muted); text-align: left; border-radius: 0.65rem;
+      padding: 0.62rem 0.75rem; font: inherit; font-size: 0.88rem; font-weight: 500;
+      cursor: pointer; display: flex; gap: 0.7rem; align-items: baseline;
+    }
+    .nav-list button:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+    .nav-list button.is-active {
+      background: rgba(184,161,120,0.1); border-color: rgba(184,161,120,0.35); color: var(--accent-bright);
+    }
+    .nav-list__num {
+      font-size: 0.78rem; min-width: 1.4rem; opacity: 0.7; font-weight: 600; font-variant-numeric: tabular-nums;
+    }
+
+    .kicker {
+      font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; margin: 0 0 0.85rem;
+    }
+    h1 {
+      font-size: clamp(2.4rem, 5.8vw, 3.9rem);
+      font-weight: 600; letter-spacing: -0.035em; line-height: 1.08;
+      margin: 0 0 0.85rem; max-width: 14ch;
+    }
+    h2 {
+      font-size: clamp(1.85rem, 4.2vw, 2.85rem);
+      font-weight: 600; letter-spacing: -0.03em; line-height: 1.12;
+      margin: 0 0 0.75rem; max-width: 18ch;
+    }
+    .lead {
+      font-size: clamp(1rem, 1.7vw, 1.15rem);
+      color: var(--muted); max-width: 34rem; line-height: 1.5; margin: 0 0 1.5rem; font-weight: 400;
+    }
+    .accent { color: var(--accent-bright); }
+
+    .brand-mark { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.75rem; }
+    .brand-mark__logo { width: clamp(72px, 11vw, 96px); height: auto; display: block; }
+    .brand-mark__word {
+      font-size: 1.15rem; font-weight: 600; letter-spacing: -0.02em; color: var(--accent-bright);
+    }
+    .brand-mark__tag { display: block; font-size: 0.8rem; color: var(--muted); margin-top: 0.15rem; font-weight: 400; }
+
+    .grid { display: grid; gap: 0.85rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .two { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; }
+    .three { display: grid; gap: 0.85rem; grid-template-columns: repeat(3, 1fr); }
+    .six { display: grid; gap: 0.75rem; grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 860px) {
+      .two, .three, .six { grid-template-columns: 1fr; }
+      h1, h2 { max-width: none; }
+      .slide.is-on { align-items: flex-start; }
+    }
+    @media (min-width: 861px) and (max-width: 1020px) {
+      .six { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .card {
+      background: rgba(12, 26, 46, 0.72);
+      border: 1px solid var(--line);
+      border-radius: 0.75rem;
+      padding: 1rem 1.1rem;
+    }
+    .card h3 {
+      margin: 0 0 0.3rem; font-size: 0.95rem; font-weight: 600; letter-spacing: -0.01em;
+    }
+    .card p { margin: 0; color: var(--muted); font-size: 0.88rem; line-height: 1.4; }
+    .card ul { margin: 0.35rem 0 0; padding-left: 1rem; }
+    .card li { color: var(--muted); font-size: 0.88rem; line-height: 1.4; margin-bottom: 0.28rem; }
+    .card strong { color: var(--text); font-weight: 600; }
+
+    .pill {
+      display: inline-block; font-size: 0.62rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.22rem 0.48rem; border-radius: 999px;
+      color: var(--accent-bright); border: 1px solid rgba(184,161,120,0.4);
+      margin-bottom: 0.45rem;
+    }
+    .pill.danger { color: #ff9aa4; border-color: rgba(255,107,122,0.35); }
+    .pill.ok { color: var(--ok); border-color: rgba(61,214,140,0.35); }
+    .pill.cyan { color: var(--cyan); border-color: rgba(94,200,216,0.35); }
+
+    .cta-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; align-items: center; }
+    .cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.65rem 1.1rem; border-radius: 999px;
+      font-weight: 600; font-size: 0.88rem; text-decoration: none;
+      border: 0; cursor: pointer; font-family: inherit;
+      transition: transform 150ms ease, filter 150ms ease;
+    }
+    .cta:hover { transform: translateY(-1px); filter: brightness(1.06); }
+    .cta--primary { background: var(--accent); color: var(--accent-ink); }
+    .cta--ghost {
+      border: 1px solid rgba(184,161,120,0.4); color: var(--accent-bright); background: transparent;
+    }
+
+    .stat-row {
+      display: grid; gap: 0.75rem;
+      grid-template-columns: repeat(4, 1fr);
+      margin: 1.35rem 0 0;
+    }
+    @media (max-width: 720px) { .stat-row { grid-template-columns: 1fr 1fr; } }
+    .stat {
+      padding: 1.1rem 1rem; border-radius: 0.75rem;
+      border: 1px solid var(--line); background: rgba(12,26,46,0.65);
+    }
+    .stat__n {
+      font-size: clamp(1.8rem, 3.5vw, 2.35rem);
+      font-weight: 600; letter-spacing: -0.04em;
+      color: var(--accent-bright); line-height: 1;
+    }
+    .stat__l { margin-top: 0.4rem; color: var(--muted); font-size: 0.8rem; font-weight: 500; }
+
+    .flow {
+      display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;
+      margin: 1.1rem 0 1.4rem; font-size: 0.82rem; font-weight: 600;
+    }
+    .flow span {
+      padding: 0.4rem 0.65rem; border: 1px solid var(--line);
+      border-radius: 0.5rem; background: rgba(12,26,46,0.8);
+    }
+    .flow em { font-style: normal; color: var(--muted); font-weight: 500; font-size: 0.75rem; }
+
+    .arch {
+      display: grid; gap: 0.5rem; grid-template-columns: repeat(4, 1fr); margin: 1.1rem 0 1.25rem;
+    }
+    @media (max-width: 800px) { .arch { grid-template-columns: 1fr 1fr; } }
+    .arch__layer {
+      border: 1px solid var(--line); border-radius: 0.65rem;
+      padding: 0.9rem 0.75rem; text-align: center; background: rgba(12,26,46,0.55);
+    }
+    .arch__layer strong { display: block; font-size: 0.84rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .arch__layer span { font-size: 0.74rem; color: var(--muted); display: block; line-height: 1.35; }
+
+    .timeline {
+      display: grid; gap: 0; border-left: 2px solid rgba(184,161,120,0.3);
+      margin: 0.35rem 0 0 0.25rem; padding-left: 1.1rem;
+    }
+    .timeline__item { position: relative; padding: 0 0 1.05rem; }
+    .timeline__item:last-child { padding-bottom: 0; }
+    .timeline__item::before {
+      content: ""; position: absolute; left: -1.32rem; top: 0.35rem;
+      width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+    }
+    .timeline__days {
+      font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--cyan); font-weight: 600; margin-bottom: 0.12rem;
+    }
+    .timeline__item strong { display: block; font-size: 0.95rem; margin-bottom: 0.15rem; font-weight: 600; }
+    .timeline__item p { margin: 0; color: var(--muted); font-size: 0.85rem; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 0.5rem; }
+    th, td {
+      text-align: left; padding: 0.7rem 0.5rem;
+      border-bottom: 1px solid var(--line); vertical-align: middle;
+    }
+    th {
+      color: var(--muted); font-size: 0.65rem; letter-spacing: 0.12em;
+      text-transform: uppercase; font-weight: 600;
+    }
+    td { font-weight: 500; }
+    td:last-child { color: var(--accent-bright); font-weight: 600; }
+
+    .bar {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+      display: flex; align-items: center; justify-content: space-between; gap: 0.65rem;
+      padding: 0.7rem 1.15rem;
+      background: rgba(7,17,31,0.94); border-top: 1px solid var(--line);
+      backdrop-filter: blur(8px);
+      transition: opacity 200ms ease, transform 200ms ease;
+    }
+    .bar button {
+      appearance: none; border: 1px solid var(--line); background: var(--panel);
+      color: var(--text); border-radius: 999px; padding: 0.42rem 0.85rem;
+      font: inherit; font-size: 0.84rem; font-weight: 600; cursor: pointer;
+    }
+    .bar button:hover { border-color: var(--accent); color: var(--accent-bright); }
+    .bar button.is-live {
+      border-color: rgba(184,161,120,0.5);
+      background: rgba(184,161,120,0.12);
+      color: var(--accent-bright);
+    }
+    .progress { color: var(--muted); font-size: 0.8rem; font-weight: 500; text-align: center; flex: 1; }
+    .hint {
+      position: fixed; left: 50%; bottom: 4.4rem; transform: translateX(-50%);
+      z-index: 6; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); background: rgba(7,17,31,0.85); border: 1px solid var(--line);
+      border-radius: 999px; padding: 0.32rem 0.7rem; pointer-events: none;
+      opacity: 0; transition: opacity 280ms ease;
+    }
+    .hint.is-on { opacity: 1; }
+    .hint kbd { font: inherit; color: var(--accent-bright); padding: 0 0.12rem; }
+
+    body.is-present .nav-toggle { opacity: 0; pointer-events: none; }
+    body.is-present .bar { opacity: 0; transform: translateY(110%); pointer-events: none; }
+    body.is-present .hint { bottom: 1.15rem; }
+    body.is-present .slide { padding-bottom: 2.25rem; padding-top: clamp(2.75rem, 5vw, 3.75rem); }
+    body.is-present h1 { font-size: clamp(2.7rem, 6.5vw, 4.2rem); }
+    body.is-present h2 { font-size: clamp(2.1rem, 5vw, 3.15rem); }
+
+    .hero-split {
+      display: grid; gap: 2rem; grid-template-columns: 1.15fr 0.85fr; align-items: center;
+    }
+    @media (max-width: 920px) { .hero-split { grid-template-columns: 1fr; } }
+
+    .mock {
+      border-radius: 1rem; border: 1px solid rgba(184,161,120,0.28); overflow: hidden;
+      background: linear-gradient(180deg, #0e1c32 0%, #091426 100%);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.03) inset,
+        0 28px 56px rgba(0,0,0,0.45),
+        0 0 60px rgba(94,200,216,0.06);
+      transform: perspective(1200px) rotateY(-4deg) rotateX(2deg);
+      transition: transform 400ms ease;
+    }
+    .mock:hover { transform: perspective(1200px) rotateY(-1deg) rotateX(0deg); }
+    @media (max-width: 920px) { .mock { transform: none; } .mock:hover { transform: none; } }
+    .mock__chrome {
+      display: flex; align-items: center; gap: 0.35rem;
+      padding: 0.55rem 0.75rem; background: rgba(18,37,63,0.95);
+      border-bottom: 1px solid rgba(184,161,120,0.15);
+    }
+    .mock__dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.16); }
+    .mock__dot:nth-child(1) { background: #ff5f57; }
+    .mock__dot:nth-child(2) { background: #febc2e; }
+    .mock__dot:nth-child(3) { background: #28c840; }
+    .mock__url {
+      margin-left: 0.4rem; flex: 1; font-size: 0.64rem; color: var(--muted);
+      background: rgba(0,0,0,0.28); border-radius: 999px; padding: 0.26rem 0.65rem;
+      letter-spacing: 0.01em;
+    }
+    .mock__body { padding: 0.95rem 1rem 1.05rem; display: grid; gap: 0.85rem; }
+    .mock__top {
+      display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+    }
+    .mock__brand {
+      display: flex; align-items: center; gap: 0.55rem;
+    }
+    .mock__brand img { width: 28px; height: auto; opacity: 0.95; }
+    .mock__brand-txt strong {
+      display: block; font-size: 0.72rem; font-weight: 600; letter-spacing: -0.01em;
+    }
+    .mock__brand-txt span {
+      font-size: 0.58rem; color: var(--muted); font-weight: 500; letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .mock__secure {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.58rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ok); background: rgba(61,214,140,0.1);
+      border: 1px solid rgba(61,214,140,0.28); border-radius: 999px; padding: 0.28rem 0.5rem;
+    }
+    .mock__secure i {
+      width: 5px; height: 5px; border-radius: 50%; background: var(--ok);
+      box-shadow: 0 0 0 3px rgba(61,214,140,0.2);
+    }
+    .mock__pass {
+      position: relative; border-radius: 0.85rem; overflow: hidden;
+      padding: 1rem 1.05rem 0.95rem;
+      background:
+        radial-gradient(ellipse 80% 70% at 100% 0%, rgba(94,200,216,0.16), transparent 55%),
+        radial-gradient(ellipse 60% 50% at 0% 100%, rgba(184,161,120,0.18), transparent 50%),
+        linear-gradient(145deg, #16324f 0%, #0c1a2e 55%, #0a1524 100%);
+      border: 1px solid rgba(184,161,120,0.35);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.28);
+    }
+    .mock__pass::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(115deg, transparent 40%, rgba(255,255,255,0.04) 48%, transparent 56%);
+    }
+    .mock__pass-head {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 0.85rem; position: relative; z-index: 1;
+    }
+    .mock__pass-label {
+      font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent-bright); font-weight: 600;
+    }
+    .mock__pass-id {
+      font-size: 0.62rem; color: rgba(244,241,234,0.55); font-weight: 500;
+      font-variant-numeric: tabular-nums;
+    }
+    .mock__pass-name {
+      position: relative; z-index: 1;
+      font-size: 1.05rem; font-weight: 600; letter-spacing: -0.02em;
+      margin: 0 0 0.2rem; line-height: 1.15;
+    }
+    .mock__pass-role {
+      position: relative; z-index: 1;
+      margin: 0; font-size: 0.72rem; color: rgba(244,241,234,0.62); font-weight: 400;
+    }
+    .mock__pass-foot {
+      position: relative; z-index: 1;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-top: 1rem; padding-top: 0.75rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .mock__pass-meta span {
+      display: block; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(244,241,234,0.45); font-weight: 600; margin-bottom: 0.15rem;
+    }
+    .mock__pass-meta strong {
+      font-size: 0.78rem; font-weight: 600; color: var(--text);
+    }
+    .mock__qr {
+      width: 42px; height: 42px; border-radius: 0.35rem;
+      background:
+        linear-gradient(90deg, #f4f1ea 2px, transparent 2px) 0 0 / 6px 6px,
+        linear-gradient(#f4f1ea 2px, transparent 2px) 0 0 / 6px 6px,
+        rgba(244,241,234,0.08);
+      border: 1px solid rgba(244,241,234,0.2);
+      opacity: 0.85;
+    }
+    .mock__stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem;
+    }
+    .mock__stat {
+      padding: 0.7rem 0.75rem; border-radius: 0.65rem;
+      background: rgba(7,17,31,0.55);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .mock__stat em {
+      display: block; font-style: normal; font-size: 0.55rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 0.25rem;
+    }
+    .mock__stat strong {
+      display: block; font-size: 0.88rem; font-weight: 600; letter-spacing: -0.01em;
+    }
+    .mock__stat strong.ok { color: var(--ok); }
+    .mock__stat strong.gold { color: var(--accent-bright); }
+    .mock__next {
+      display: flex; align-items: center; gap: 0.7rem;
+      padding: 0.7rem 0.75rem; border-radius: 0.65rem;
+      background: rgba(94,200,216,0.06);
+      border: 1px solid rgba(94,200,216,0.18);
+    }
+    .mock__next-date {
+      flex-shrink: 0; width: 42px; text-align: center;
+      border-radius: 0.45rem; padding: 0.35rem 0.2rem;
+      background: rgba(12,26,46,0.9); border: 1px solid rgba(184,161,120,0.25);
+    }
+    .mock__next-date strong {
+      display: block; font-size: 1rem; font-weight: 600; color: var(--accent-bright); line-height: 1;
+    }
+    .mock__next-date span {
+      font-size: 0.52rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); font-weight: 600;
+    }
+    .mock__next-info strong {
+      display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 0.1rem;
+    }
+    .mock__next-info span {
+      font-size: 0.68rem; color: var(--muted); font-weight: 400;
+    }
+
+    .ask {
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      font-weight: 500; line-height: 1.45; color: rgba(244,241,234,0.9);
+      margin: 1.25rem 0 0; max-width: 36rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="rail" aria-hidden="true"><div class="rail__fill" id="railFill"></div></div>
+  <img class="deck-logo" src="assets/aja-logo-on-dark.png" alt="AJA" />
+  <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false">
+    <span class="nav-toggle__icon" aria-hidden="true"><i></i><i></i><i></i></span>
+    Índice
+  </button>
+  <div class="nav-backdrop" id="navBackdrop" hidden></div>
+  <aside class="nav-drawer" id="navDrawer">
+    <p class="nav-drawer__label">AJA Digital</p>
+    <ul class="nav-list" id="navList"></ul>
+  </aside>
+  <div class="hint" id="hint"><kbd>F</kbd> apresentar · <kbd>←</kbd><kbd>→</kbd> slides</div>
+
+  <div class="deck">
+
+    <!-- 01 -->
+    <section class="slide is-on" id="s1" data-title="Visão">
+      <div class="slide__bg"></div>
+      <div class="slide__inner">
+        <div class="hero-split">
+          <div>
+            <div class="brand-mark">
+              <img class="brand-mark__logo" src="assets/aja-logo-on-dark.png" alt="AJA" />
+              <div>
+                <div class="brand-mark__word">AJA Digital</div>
+                <span class="brand-mark__tag">Proposta à Direcção · 2025–2028</span>
+              </div>
+            </div>
+            <p class="kicker">01 — Visão</p>
+            <h1>Infraestrutura digital da associação.</h1>
+            <p class="lead">Mais capacidade institucional. Menos trabalho manual. Sem misturar com processos judiciais.</p>
+            <div class="cta-row">
+              <button type="button" class="cta cta--primary" id="startPitch">Seguir</button>
+            </div>
+          </div>
+          <div class="mock" aria-hidden="true">
+            <div class="mock__chrome">
+              <span class="mock__dot"></span><span class="mock__dot"></span><span class="mock__dot"></span>
+              <span class="mock__url">digital.aja.org.ao / área reservada</span>
+            </div>
+            <div class="mock__body">
+              <div class="mock__top">
+                <div class="mock__brand">
+                  <img src="assets/aja-logo-on-dark.png" alt="" />
+                  <div class="mock__brand-txt">
+                    <strong>Área do associado</strong>
+                    <span>Sessão segura</span>
+                  </div>
+                </div>
+                <span class="mock__secure"><i></i> MFA</span>
+              </div>
+
+              <div class="mock__pass">
+                <div class="mock__pass-head">
+                  <span class="mock__pass-label">Cartão digital</span>
+                  <span class="mock__pass-id">AJA · 2015-0847</span>
+                </div>
+                <p class="mock__pass-name">Magistrado Associado</p>
+                <p class="mock__pass-role">Juiz de Direito · Luanda</p>
+                <div class="mock__pass-foot">
+                  <div class="mock__pass-meta">
+                    <span>Validade</span>
+                    <strong>2025 — 2028</strong>
+                  </div>
+                  <div class="mock__qr" title="QR de verificação"></div>
+                </div>
+              </div>
+
+              <div class="mock__stats">
+                <div class="mock__stat">
+                  <em>Quota</em>
+                  <strong class="ok">Regularizada</strong>
+                </div>
+                <div class="mock__stat">
+                  <em>Formação</em>
+                  <strong class="gold">2 certificados</strong>
+                </div>
+              </div>
+
+              <div class="mock__next">
+                <div class="mock__next-date">
+                  <strong>18</strong>
+                  <span>Nov</span>
+                </div>
+                <div class="mock__next-info">
+                  <strong>Assembleia Geral</strong>
+                  <span>Convocatória · 09h30 · Luanda</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section class="slide" id="s2" data-title="Problema">
+      <div class="slide__bg"></div>
+      <div class="slide__inner">
+        <p class="kicker">02 — Problema</p>
+        <h2>Missão nacional. Operação fragmentada.</h2>
+        <p class="lead">Hipóteses a validar com a Direcção — não conclusões fechadas.</p>
+        <div class="grid">
+          <div class="card">
+            <span class="pill danger">01</span>
+            <h3>WhatsApp como “sistema”</h3>
+            <p>Comunicação pública e interna depende de grupos — sem arquivo, auditoria nem controlo.</p>
+          </div>
+          <div class="card">
+            <span class="pill danger">02</span>
+            <h3>Gestão manual</h3>
+            <p>Quotas, cadastros e pedidos dispersos.</p>
+          </div>
+          <div class="card">
+            <span class="pill danger">03</span>
+            <h3>Alcance desigual</h3>
+            <p>18 províncias; quem não está no grupo certo fica de fora.</p>
+          </div>
+          <div class="card">
+            <span class="pill danger">04</span>
+            <h3>Apoio sensível</h3>
+            <p>Defesa institucional sem canal confidencial.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section class="slide" id="s3" data-title="Oportunidade">
+      <div class="slide__bg"></div>
+      <div class="slide__inner">
+        <p class="kicker">03 — Oportunidade</p>
+        <h2>O momento certo para modernizar.</h2>
+        <p class="lead">A justiça digitaliza-se. A AJA pode liderar pelo exemplo — na sua própria casa.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="stat__n">18</div><div class="stat__l">Províncias</div></div>
+          <div class="stat"><div class="stat__n">300+</div><div class="stat__l">Associados</div></div>
+          <div class="stat"><div class="stat__n">2025</div><div class="stat__l">UIJLP em Angola</div></div>
+          <div class="stat"><div class="stat__n">3 anos</div><div class="stat__l">Mandato actual</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="slide" id="s4" data-title="Solução">
+      <div class="slide__bg"></div>
+      <div class="slide__inner">
+        <p class="kicker">04 — Solução</p>
+        <h2>Ecossistema <span class="accent">AJA Digital</span></h2>
+        <div class="flow">
+          <span>Portal</span><em>→</em>
+          <span>Identidade + MFA</span><em>→</em>
+          <span>Área do magistrado</span><em>→</em>
+          <span>Governação</span><em>→</em>
+          <span>Indicadores</span>
+        </div>
+        <div class="two">
+          <div class="card">
+            <span class="pill ok">Âmbito</span>
+            <h3>Sistema associativo</h3>
+            <p>Membros, quotas, eventos, formação, apoio e comunicação.</p>
+          </div>
+          <div class="card">
+            <span class="pill danger">Fora</span>
+            <h3>Não é sistema judicial</h3>
+            <p>Sem processos, provas ou dados de cidadãos em litígio.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section class="slide" id="s5" data-title="Produto">
+      <div class="slide__bg"></div>
+      <div class="slide__inner">
+        <p class="kicker">05 — Produto</p>
+        <h2>Seis módulos. Uma plataforma.</h2>
+        <div class="six" style="margin-top:1.25rem">
+          <div class="card"><span class="pill">Members</span><h3>Associados</h3><p>Cadastro, cartão digital, quotas.</p></div>
+          <div class="card"><span class="pill cyan">Academy</span><h3>Formação</h3><p>Cursos, certificados, biblioteca.</p></div>
+          <div class="card"><span class="pill">Governance</span><h3>Governação</h3><p>Assembleias, atas, comissões.</p></div>
+          <div class="card"><span class="pill danger">Protect</span><h3>Apoio</h3><p>Canal confidencial cifrado.</p></div>
+          <div class="card"><span class="pill">Connect</span><h3>Comunicação</h3><p>Portal + ponte WhatsApp.</p></div>
+          <div class="card"><span class="pill ok">Intelligence</span><h3>Indicadores</h3><p>Dashboards de gestão.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section class="slide" id="s6" data-title="Arquitectura">
+      <div class="slide__bg"></div>
+      <div class="slide__inner">
+        <p class="kicker">06 — Arquitectura</p>
+        <h2>Segura. Auditável. Operável no país.</h2>
+        <div class="arch">
+          <div class="arch__layer"><strong>Canais</strong><span>Web · PWA · Admin</span></div>
+          <div class="arch__layer"><strong>Aplicação</strong><span>API · Workflows</span></div>
+          <div class="arch__layer"><strong>Identidade</strong><span>SSO · MFA · RBAC</span></div>
+          <div class="arch__layer"><strong>Dados</strong><span>Cifra · Backup · Audit</span></div>
+        </div>
+        <div class="three">
+          <div class="card"><h3>Segurança</h3><p>TLS, cifra em repouso, logs imutáveis.</p></div>
+          <div class="card"><h3>Conformidade</h3><p>Lei 22/11 · cibersegurança · dados da AJA.</p></div>
+          <div class="card"><h3>Continuidade</h3><p>Backups, monitorização, suporte com SLA.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 WhatsApp -->
+    <section class="slide" id="s7" data-title="WhatsApp">
+      <div class="slide__bg"></div>
+      <div class="slide__inner">
+        <p class="kicker">07 — WhatsApp · coexistência</p>
+        <h2>Não pedimos abandonar. Pedimos ordem.</h2>
+        <p class="lead">Os canais WhatsApp ficam. A plataforma passa a ser a fonte oficial — o WhatsApp torna-se um canal de distribuição.</p>
+        <div class="three">
+          <div class="card">
+            <span class="pill">Hoje</span>
+            <h3>WhatsApp = sistema</h3>
+            <p>Grupos misturam público, associados e gestão. Sem histórico institucional.</p>
+          </div>
+          <div class="card">
+            <span class="pill cyan">Transição</span>
+            <h3>Coexistem</h3>
+            <p>Publica-se uma vez na AJA Digital → replica-se no WhatsApp quando quiserem.</p>
+          </div>
+          <div class="card">
+            <span class="pill ok">Depois</span>
+            <h3>WhatsApp = canal</h3>
+            <p>Alcance familiar. Plataforma guarda arquivo, quotas, atas e identidade.</p>
+          </div>
+        </div>
+        <div class="card" style="margin-top:1rem">
+          <h3>Regra simples</h3>
+          <p><strong>Operação e registo</strong> na plataforma · <strong>difusão pública</strong> pode continuar no WhatsApp · ninguém é forçado a “desligar” no dia 1.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 -->
+    <section class="slide" id="s8" data-title="Diferenciação">
+      <div class="slide__bg"></div>
+      <div class="slide__inner">
+        <p class="kicker">08 — Diferenciação</p>
+        <h2>Feita para a AJA. Não um template.</h2>
+        <div class="two" style="margin-top:1.25rem">
+          <div class="card">
+            <span class="pill">Evita</span>
+            <ul>
+              <li>Gestão institucional só em chats</li>
+              <li>Site sem área autenticada</li>
+              <li>Mistura com dados processuais</li>
+            </ul>
+          </div>
+          <div class="card">
+            <span class="pill ok">Entrega</span>
+            <ul>
+              <li>Identidade digital do associado</li>
+              <li>WhatsApp como canal, não como arquivo</li>
+              <li>Dados 100% propriedade da AJA</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 -->
+    <section class="slide" id="s9" data-title="Impacto">
+      <div class="slide__bg"></div>
+      <div class="slide__inner">
+        <p class="kicker">09 — Impacto</p>
+        <h2>Objectivos a medir. Não promessas.</h2>
+        <table>
+          <thead>
+            <tr><th>Indicador</th><th>Alvo 12 meses</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Tempo de tratamento de pedidos</td><td>−40%</td></tr>
+            <tr><td>Perfis activos e validados</td><td>≥ 80%</td></tr>
+            <tr><td>Regularização de quotas</td><td>+25 p.p.</td></tr>
+            <tr><td>Participação em eventos</td><td>+30%</td></tr>
+            <tr><td>Comunicados com arquivo oficial</td><td>100%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="slide" id="s10" data-title="Implementação">
+      <div class="slide__bg"></div>
+      <div class="slide__inner">
+        <p class="kicker">10 — MVP · 90 dias</p>
+        <h2>Primeiro o núcleo. Depois a escala.</h2>
+        <div class="two" style="margin-top:1.15rem">
+          <div class="timeline">
+            <div class="timeline__item">
+              <div class="timeline__days">1–15</div>
+              <strong>Descoberta</strong>
+              <p>Entrevistas, requisitos, protótipos.</p>
+            </div>
+            <div class="timeline__item">
+              <div class="timeline__days">16–45</div>
+              <strong>Núcleo</strong>
+              <p>Portal, MFA, Members, admin.</p>
+            </div>
+            <div class="timeline__item">
+              <div class="timeline__days">46–70</div>
+              <strong>Serviços</strong>
+              <p>Quotas, eventos, Connect + ponte WhatsApp.</p>
+            </div>
+            <div class="timeline__item">
+              <div class="timeline__days">71–90</div>
+              <strong>Piloto</strong>
+              <p>Testes, formação, avaliação go/no-go.</p>
+            </div>
+          </div>
+          <div>
+            <div class="card" style="margin-bottom:0.75rem">
+              <span class="pill ok">Agora</span>
+              <h3>MVP</h3>
+              <p>Identidade, associados, quotas, eventos, comunicados, admin.</p>
+            </div>
+            <div class="card">
+              <span class="pill">Depois</span>
+              <h3>Fases seguintes</h3>
+              <p>Academy · Protect · votações · pagamentos · API WhatsApp Business.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 Oferta irrecusável -->
+    <section class="slide" id="s11" data-title="Oferta">
+      <div class="slide__bg"></div>
+      <div class="slide__inner">
+        <p class="kicker">11 — Oferta irrecusável</p>
+        <h2>Risco baixo. Decisão clara.</h2>
+        <div class="grid" style="margin-top:1rem">
+          <div class="card">
+            <span class="pill ok">01</span>
+            <h3>Discovery 15 dias</h3>
+            <p>Sem obrigação de implementar. Entrega: mapa de processos + protótipo + relatório go/no-go.</p>
+          </div>
+          <div class="card">
+            <span class="pill ok">02</span>
+            <h3>Risco invertido</h3>
+            <p>Piloto com amostra. Se falhar as métricas acordadas — saída sem lock-in.</p>
+          </div>
+          <div class="card">
+            <span class="pill ok">03</span>
+            <h3>Dados da AJA</h3>
+            <p>Propriedade 100% da associação. Código e exportação incluídos.</p>
+          </div>
+          <div class="card">
+            <span class="pill ok">04</span>
+            <h3>WhatsApp fica</h3>
+            <p>Coexistência desde o dia 1. Migração só quando a Direcção quiser.</p>
+          </div>
+        </div>
+        <table style="margin-top:1.1rem">
+          <thead>
+            <tr><th>Item</th><th>Condição</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Discovery 15 dias</td><td>Valor a fechar · teto escrito</td></tr>
+            <tr><td>MVP 90 dias</td><td>Âmbito fechado · preço-teto</td></tr>
+            <tr><td>Operação anual</td><td>Manutenção + suporte SLA</td></tr>
+            <tr><td>Propriedade</td><td>100% AJA</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="slide" id="s12" data-title="Pedido">
+      <div class="slide__bg"></div>
+      <div class="slide__inner">
+        <p class="kicker">12 — Pedido</p>
+        <h2>Três decisões. Nada mais.</h2>
+        <div class="three" style="margin-top:1.25rem">
+          <div class="card">
+            <span class="pill">01</span>
+            <h3>Mandato</h3>
+            <p>Autorizar os 15 dias de descoberta.</p>
+          </div>
+          <div class="card">
+            <span class="pill">02</span>
+            <h3>Ponto focal</h3>
+            <p>Contacto institucional e jurídico.</p>
+          </div>
+          <div class="card">
+            <span class="pill">03</span>
+            <h3>Canais</h3>
+            <p>Mapear grupos WhatsApp oficiais para a ponte.</p>
+          </div>
+        </div>
+        <p class="ask">A AJA já lidera o debate da digitalização. AJA Digital aplica o mesmo princípio à própria associação.</p>
+        <div class="cta-row" style="margin-top:1.5rem">
+          <img src="assets/aja-logo-on-dark.png" alt="" width="44" height="40" style="opacity:0.9" />
+          <span style="color:var(--muted);font-size:0.85rem;font-weight:500">Próximo passo: reunião de alinhamento · discovery kickoff</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="bar" id="bar">
+    <button type="button" id="prev">Anterior</button>
+    <div class="progress" id="progress">1 / 10 · Visão</div>
+    <div style="display:flex;gap:0.45rem">
+      <button type="button" id="presentBtn">Apresentar</button>
+      <button type="button" id="next">Seguinte</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = [...document.querySelectorAll(".slide")];
+    const navList = document.getElementById("navList");
+    const progress = document.getElementById("progress");
+    const railFill = document.getElementById("railFill");
+    const navToggle = document.getElementById("navToggle");
+    const navBackdrop = document.getElementById("navBackdrop");
+    const presentBtn = document.getElementById("presentBtn");
+    const hint = document.getElementById("hint");
+    let i = 0;
+    let hintTimer;
+
+    slides.forEach((s, idx) => {
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.innerHTML = `<span class="nav-list__num">${String(idx + 1).padStart(2, "0")}</span>${s.dataset.title || "Slide"}`;
+      btn.addEventListener("click", () => { show(idx); setNavOpen(false); });
+      li.appendChild(btn);
+      navList.appendChild(li);
+    });
+
+    function setNavOpen(open) {
+      document.body.classList.toggle("nav-open", open);
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      navBackdrop.hidden = !open;
+    }
+
+    function showHint(ms = 2600) {
+      hint.classList.add("is-on");
+      clearTimeout(hintTimer);
+      hintTimer = setTimeout(() => hint.classList.remove("is-on"), ms);
+    }
+
+    async function setPresent(on) {
+      document.body.classList.toggle("is-present", on);
+      presentBtn.classList.toggle("is-live", on);
+      presentBtn.textContent = on ? "A apresentar" : "Apresentar";
+      try {
+        if (on && !document.fullscreenElement) await document.documentElement.requestFullscreen();
+        else if (!on && document.fullscreenElement) await document.exitFullscreen();
+      } catch (_) {}
+      if (on) showHint(3000);
+    }
+
+    function show(n) {
+      i = Math.max(0, Math.min(slides.length - 1, n));
+      slides.forEach((s, idx) => s.classList.toggle("is-on", idx === i));
+      [...navList.querySelectorAll("button")].forEach((b, idx) => {
+        b.classList.toggle("is-active", idx === i);
+      });
+      progress.textContent = `${i + 1} / ${slides.length} · ${slides[i].dataset.title || ""}`;
+      railFill.style.width = `${((i + 1) / slides.length) * 100}%`;
+      slides[i].scrollTop = 0;
+      history.replaceState(null, "", "#" + (slides[i].id || ("s" + (i + 1))));
+    }
+
+    document.getElementById("startPitch")?.addEventListener("click", () => show(1));
+    navToggle.addEventListener("click", () => setNavOpen(!document.body.classList.contains("nav-open")));
+    navBackdrop.addEventListener("click", () => setNavOpen(false));
+    document.getElementById("prev").onclick = () => show(i - 1);
+    document.getElementById("next").onclick = () => show(i + 1);
+    presentBtn.onclick = () => setPresent(!document.body.classList.contains("is-present"));
+
+    document.addEventListener("fullscreenchange", () => {
+      if (!document.fullscreenElement && document.body.classList.contains("is-present")) {
+        document.body.classList.remove("is-present");
+        presentBtn.classList.remove("is-live");
+        presentBtn.textContent = "Apresentar";
+      }
+    });
+
+    window.addEventListener("keydown", (e) => {
+      const tag = (e.target && e.target.tagName) || "";
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+      if (e.key === "Escape") {
+        if (document.body.classList.contains("nav-open")) setNavOpen(false);
+        else if (document.body.classList.contains("is-present")) setPresent(false);
+        return;
+      }
+      if (e.key === "f" || e.key === "F") {
+        e.preventDefault();
+        setPresent(!document.body.classList.contains("is-present"));
+        return;
+      }
+      if (document.body.classList.contains("nav-open")) return;
+      if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); show(i + 1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); show(i - 1); }
+      if (e.key === "Home") { e.preventDefault(); show(0); }
+      if (e.key === "End") { e.preventDefault(); show(slides.length - 1); }
+    });
+
+    const hash = (location.hash || "").replace("#", "");
+    const fromHash = slides.findIndex((s) => s.id === hash);
+    show(fromHash >= 0 ? fromHash : 0);
+    showHint(3800);
+  </script>
+</body>
+</html>

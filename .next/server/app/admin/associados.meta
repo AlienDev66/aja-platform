@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/associados/layout,_N_T_/admin/associados/page,_N_T_/admin/associados"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/8c3b8e99b8d8dd66b8526e2d6d3a7540e859c85a9287579ddeba3c4273eb7995/$/admin/associados",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/admin/associados/page"
+    },
+    "isFallback": false
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/app/layout,_N_T_/app/organigrama/layout,_N_T_/app/organigrama/page,_N_T_/app/organigrama"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/f4ee933854b921b798b26fc7fba286b2c179a99dcb02453859d8174e29e95bc4/$/app/organigrama",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/app/organigrama/page"
+    },
+    "isFallback": false
+  }
+}

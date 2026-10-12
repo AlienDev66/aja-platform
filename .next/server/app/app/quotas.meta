@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/app/layout,_N_T_/app/quotas/layout,_N_T_/app/quotas/page,_N_T_/app/quotas"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/acedcf4738e2196928a68202ef3c906ef5f9ab32557e2aa45f206d3e7107eb46/$/app/quotas",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/app/quotas/page"
+    },
+    "isFallback": false
+  }
+}
